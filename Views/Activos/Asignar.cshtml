@@ -1,0 +1,9 @@
+@model Activo
+@{ ViewData["Title"] = "Asignar " + Model.Codigo; }
+<h1>Asignar @Model.Codigo</h1>
+<p class="vacio">@Model.Marca @Model.Modelo. Si ya tenía responsable, esa asignación se cierra hoy.</p>
+<form method="post" style="max-width:480px">
+  <label>Empleado<select name="empleadoId" asp-items="ViewBag.Empleados"></select></label>
+  <label style="margin-top:12px">Observaciones<textarea name="observaciones" rows="3"></textarea></label>
+  <div class="acciones" style="margin-top:14px"><button>Asignar activo</button><a class="btn sec" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a></div>
+</form>

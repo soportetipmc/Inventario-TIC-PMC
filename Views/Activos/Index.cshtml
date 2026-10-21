@@ -1,0 +1,43 @@
+@model List<Activo>
+@{
+  ViewData["Title"] = "Activos";
+  var tec = (await Auth.AuthorizeAsync(User, "Tecnico")).Succeeded;
+}
+<div class="bar">
+  <h1>Activos (@Model.Count)</h1>
+  <div class="acciones">
+    <a class="btn sec" target="_blank" href="@Url.Action("Etiquetas")@Context.Request.QueryString">Imprimir etiquetas de esta lista</a>
+    @if (tec) { <a class="btn" asp-action="Create">Registrar activo</a> }
+  </div>
+</div>
+<form method="get" class="filtros">
+  <input name="q" value="@ViewBag.Q" placeholder="Buscar por código, marca, modelo, serial u hostname" />
+  <select name="sedeId" asp-items="ViewBag.Sedes"><option value="">Todas las sedes</option></select>
+  <select name="categoriaId" asp-items="ViewBag.Categorias"><option value="">Todas las categorías</option></select>
+  <select name="estado" asp-items="ViewBag.Estados"><option value="">Todos los estados</option></select>
+  <button>Filtrar</button>
+</form>
+@if (Model.Count == 0)
+{
+  <p class="vacio">No hay activos con estos filtros. Cambia la búsqueda o registra un activo nuevo.</p>
+}
+else
+{
+  <div class="tabla"><table>
+    <thead><tr><th>Código</th><th>Categoría</th><th>Equipo</th><th>Serial</th><th>Ubicación</th><th>Responsable</th><th>Estado</th></tr></thead>
+    <tbody>
+    @foreach (var a in Model)
+    {
+      <tr>
+        <td><a asp-action="Details" asp-route-id="@a.Id">@a.Codigo</a></td>
+        <td>@a.Categoria?.Nombre</td>
+        <td>@a.Marca @a.Modelo</td>
+        <td>@(a.Serial ?? "—")</td>
+        <td>@a.Sede?.Nombre@(a.Area is null ? "" : " / " + a.Area.Nombre)</td>
+        <td>@(a.Asignaciones.FirstOrDefault()?.Empleado?.Nombre ?? "—")</td>
+        <td><span class="estado e-@a.Estado">@a.Estado.Texto()</span></td>
+      </tr>
+    }
+    </tbody>
+  </table></div>
+}

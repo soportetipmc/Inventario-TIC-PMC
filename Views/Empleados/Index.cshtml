@@ -1,0 +1,28 @@
+@model List<Empleado>
+@{
+  ViewData["Title"] = "Empleados";
+  var tec = (await Auth.AuthorizeAsync(User, "Tecnico")).Succeeded;
+}
+<div class="bar">
+  <h1>Empleados (@Model.Count)</h1>
+  @if (tec)
+  {
+    <form method="post" asp-action="ImportarAD"><button>Importar desde Active Directory</button></form>
+  }
+</div>
+@if (Model.Count == 0)
+{
+  <p class="vacio">Todavía no hay empleados. Importa los usuarios de Active Directory para poder asignar activos.</p>
+}
+else
+{
+  <div class="tabla"><table>
+    <thead><tr><th>Nombre</th><th>Usuario</th><th>Correo</th><th>Activo</th></tr></thead>
+    <tbody>
+    @foreach (var e in Model)
+    {
+      <tr><td>@e.Nombre</td><td>@e.UsuarioDominio</td><td>@(e.Correo ?? "—")</td><td>@(e.Activo ? "Sí" : "No")</td></tr>
+    }
+    </tbody>
+  </table></div>
+}

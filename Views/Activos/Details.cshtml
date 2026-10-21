@@ -1,0 +1,54 @@
+@model Activo
+@{
+  ViewData["Title"] = Model.Codigo;
+  var tec = (await Auth.AuthorizeAsync(User, "Tecnico")).Succeeded;
+  var actual = Model.Asignaciones.FirstOrDefault(x => x.FechaFin == null);
+  var garantiaVencida = Model.GarantiaHasta.HasValue && Model.GarantiaHasta.Value.Date < DateTime.Today;
+}
+<div class="bar">
+  <h1>@Model.Codigo · @Model.Marca @Model.Modelo</h1>
+  @if (tec)
+  {
+    <div class="acciones">
+      <a class="btn" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+      <a class="btn sec" asp-action="Asignar" asp-route-id="@Model.Id">Asignar a un empleado</a>
+      <a class="btn sec" asp-action="Etiqueta" asp-route-id="@Model.Id" target="_blank">Imprimir etiqueta</a>
+      @if (actual is not null)
+      {
+        <form method="post" asp-action="Devolver" asp-route-id="@Model.Id"><button class="sec btn">Registrar devolución</button></form>
+      }
+    </div>
+  }
+</div>
+<dl>
+  <dt>Categoría</dt><dd>@Model.Categoria?.Nombre</dd>
+  <dt>Estado</dt><dd><span class="estado e-@Model.Estado">@Model.Estado.Texto()</span></dd>
+  <dt>Responsable actual</dt><dd>@(actual?.Empleado?.Nombre ?? "Sin asignar")</dd>
+  <dt>Serial</dt><dd>@(Model.Serial ?? "—")</dd>
+  <dt>Ubicación</dt><dd>@Model.Sede?.Nombre@(Model.Area is null ? "" : " / " + Model.Area.Nombre)</dd>
+  <dt>Compra</dt><dd>@(Model.FechaCompra?.ToString("dd/MM/yyyy") ?? "—")@(Model.Costo.HasValue ? " · " + Model.Costo.Value.ToString("N0") : "")@(Model.Proveedor is null ? "" : " · " + Model.Proveedor.Nombre)</dd>
+  <dt>Factura</dt><dd>@(Model.Factura ?? "—")</dd>
+  <dt>Garantía hasta</dt><dd>@(Model.GarantiaHasta?.ToString("dd/MM/yyyy") ?? "—")@(garantiaVencida ? " (vencida)" : "")</dd>
+  <dt>Vida útil</dt><dd>@(Model.VidaUtilAnios.HasValue ? Model.VidaUtilAnios + " años" : "—")</dd>
+  <dt>Hostname / IP / MAC</dt><dd>@(Model.Hostname ?? "—") / @(Model.IP ?? "—") / @(Model.MAC ?? "—")</dd>
+  <dt>Sistema operativo</dt><dd>@(Model.SistemaOperativo ?? "—")</dd>
+  <dt>Hardware</dt><dd>@(Model.Procesador ?? "—") · @(Model.RamGB.HasValue ? Model.RamGB + " GB RAM" : "—") · @(Model.Almacenamiento ?? "—")</dd>
+  <dt>Observaciones</dt><dd>@(Model.Observaciones ?? "—")</dd>
+</dl>
+<h2>Historial de asignaciones</h2>
+@if (Model.Asignaciones.Count == 0)
+{
+  <p class="vacio">Este activo todavía no se ha asignado a nadie.</p>
+}
+else
+{
+  <div class="tabla"><table>
+    <thead><tr><th>Empleado</th><th>Desde</th><th>Hasta</th><th>Observaciones</th></tr></thead>
+    <tbody>
+    @foreach (var s in Model.Asignaciones.OrderByDescending(x => x.FechaInicio))
+    {
+      <tr><td>@s.Empleado?.Nombre</td><td>@s.FechaInicio.ToString("dd/MM/yyyy")</td><td>@(s.FechaFin?.ToString("dd/MM/yyyy") ?? "Vigente")</td><td>@(s.Observaciones ?? "")</td></tr>
+    }
+    </tbody>
+  </table></div>
+}

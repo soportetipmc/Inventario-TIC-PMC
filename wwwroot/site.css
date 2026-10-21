@@ -1,0 +1,40 @@
+:root{--palma:#1f4d36;--hoja:#2f6f4f;--fruto:#b8741a;--fondo:#f7f8f5;--tinta:#1c2420;--suave:#5d6b63;--linea:#d9ded6;--error:#a12b2b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+header{background:#fff;color:var(--tinta);border-bottom:3px solid var(--palma);display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;padding:10px 24px}
+header a{color:var(--palma);text-decoration:none}
+.marca{display:flex;align-items:center;gap:14px;font-weight:600;font-size:17px}.marca img{height:38px;width:auto}.marca span{color:var(--suave)}
+nav{display:flex;gap:18px;flex:1}nav a{font-weight:500}nav a:hover{text-decoration:underline}
+.usuario{font-size:13px;color:var(--suave)}
+main{max-width:1200px;margin:0 auto;padding:24px}
+h1{font-size:24px;margin:0}h2{font-size:18px;margin:28px 0 10px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.btn,button{background:var(--hoja);color:#fff;border:0;border-radius:4px;padding:8px 16px;font:inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover,button:hover{background:var(--palma)}
+.btn.sec{background:transparent;color:var(--hoja);border:1px solid var(--hoja)}
+a{color:var(--hoja)}
+:focus-visible{outline:3px solid var(--fruto);outline-offset:2px}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+input,select,textarea{font:inherit;padding:7px 9px;border:1px solid var(--linea);border-radius:4px;background:#fff;width:100%}
+.filtros input{flex:2;min-width:220px;width:auto}.filtros select{flex:1;min-width:140px;width:auto}
+.tabla{overflow-x:auto;background:#fff;border:1px solid var(--linea);border-radius:4px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--linea);white-space:nowrap}
+th{font-weight:600;color:var(--suave);font-size:13px}
+tr:last-child td{border-bottom:0}
+.estado{padding:2px 9px;border-radius:10px;font-size:13px;background:#e4ece6;color:var(--palma)}
+.e-EnBodega{background:#f1ecdd;color:#6b5314}.e-EnReparacion{background:#f6e3c9;color:#7a4a08}
+.e-Baja,.e-Perdido{background:#eadcdc;color:var(--error)}
+.aviso{background:#fff;border-left:4px solid var(--fruto);padding:10px 14px;margin-bottom:16px}
+.vacio{color:var(--suave);padding:24px 0}
+.error,.field-validation-error{color:var(--error);font-size:13px}
+form.activo fieldset{border:1px solid var(--linea);border-radius:4px;background:#fff;margin:0 0 16px;padding:12px 16px 16px}
+legend{font-weight:600;padding:0 6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px}
+label{display:block;font-size:13px;color:var(--suave)}label input,label select,label textarea{margin-top:3px;color:var(--tinta)}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 20px;background:#fff;border:1px solid var(--linea);border-radius:4px;padding:14px 18px}
+dt{color:var(--suave)}dd{margin:0}
+.acciones{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mini input,.mini select{flex:1;min-width:120px;width:auto}
+@media (max-width:600px){main{padding:14px}}

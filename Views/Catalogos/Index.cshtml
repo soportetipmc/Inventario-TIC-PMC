@@ -1,0 +1,45 @@
+@{
+  ViewData["Title"] = "Catálogos";
+  var admin = (await Auth.AuthorizeAsync(User, "Admin")).Succeeded;
+  var sedes = (List<Sede>)ViewBag.Sedes;
+  var cats = (List<Categoria>)ViewBag.Categorias;
+  var provs = (List<Proveedor>)ViewBag.Proveedores;
+}
+<h1>Catálogos</h1>
+<div class="cols">
+<section>
+  <h2>Sedes y áreas</h2>
+  @if (sedes.Count == 0) { <p class="vacio">Agrega primero las dos sedes.</p> }
+  @foreach (var s in sedes)
+  {
+    <p><strong>@s.Nombre</strong>@(s.Areas.Count == 0 ? " — sin áreas" : ": " + string.Join(", ", s.Areas.OrderBy(a => a.Nombre).Select(a => a.Nombre)))</p>
+  }
+  @if (admin)
+  {
+    <form method="post" asp-action="AddSede" class="mini"><input name="nombre" placeholder="Nombre de la sede" required /><input name="direccion" placeholder="Dirección (opcional)" /><button>Agregar sede</button></form>
+    <form method="post" asp-action="AddArea" class="mini">
+      <select name="sedeId" asp-items="@(sedes.Select(s => new SelectListItem(s.Nombre, s.Id.ToString())).ToList())"></select>
+      <input name="nombre" placeholder="Nombre del área" required /><button>Agregar área</button>
+    </form>
+  }
+</section>
+<section>
+  <h2>Categorías</h2>
+  <div class="tabla"><table><thead><tr><th>Categoría</th><th>Prefijo</th></tr></thead>
+  <tbody>@foreach (var c in cats) { <tr><td>@c.Nombre</td><td>@c.Prefijo</td></tr> }</tbody></table></div>
+  @if (admin)
+  {
+    <form method="post" asp-action="AddCategoria" class="mini"><input name="nombre" placeholder="Nombre" required /><input name="prefijo" placeholder="Prefijo (máx. 6)" maxlength="6" required /><button>Agregar categoría</button></form>
+  }
+</section>
+<section>
+  <h2>Proveedores</h2>
+  @if (provs.Count == 0) { <p class="vacio">Aún no hay proveedores.</p> }
+  else { <div class="tabla"><table><thead><tr><th>Proveedor</th><th>NIT</th></tr></thead>
+  <tbody>@foreach (var p in provs) { <tr><td>@p.Nombre</td><td>@(p.Nit ?? "—")</td></tr> }</tbody></table></div> }
+  @if (admin)
+  {
+    <form method="post" asp-action="AddProveedor" class="mini"><input name="nombre" placeholder="Nombre" required /><input name="nit" placeholder="NIT (opcional)" /><button>Agregar proveedor</button></form>
+  }
+</section>
+</div>

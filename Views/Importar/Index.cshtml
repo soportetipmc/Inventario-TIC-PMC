@@ -1,0 +1,20 @@
+@{
+  ViewData["Title"] = "Carga masiva";
+  var errores = ViewBag.Errores as List<string>;
+}
+<h1>Carga masiva de activos</h1>
+<p>Descarga la plantilla, llénala en Excel y guárdala como CSV (delimitado por punto y coma, UTF-8). Los nombres de categoría, sede y área deben existir en Catálogos, y el responsable es el usuario de dominio. Si una fila tiene un error, no se importa nada.</p>
+<p><a class="btn sec" asp-action="Plantilla">Descargar plantilla</a></p>
+@if (ViewBag.Creados is int n)
+{
+  <div class="aviso">Se importaron @n activos.</div>
+}
+@if (errores is not null)
+{
+  <div class="aviso"><strong>No se importó nada. Corrige estas filas y vuelve a subir el archivo:</strong>
+    <ul>@foreach (var e in errores) { <li>@e</li> }</ul></div>
+}
+<form method="post" enctype="multipart/form-data" style="max-width:480px">
+  <label>Archivo CSV<input type="file" name="archivo" accept=".csv" /></label>
+  <p><button>Importar activos</button></p>
+</form>

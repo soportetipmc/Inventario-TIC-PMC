@@ -1,0 +1,31 @@
+@model Activo
+<div asp-validation-summary="ModelOnly" class="error"></div>
+<fieldset><legend>Identificación</legend><div class="grid">
+  <label>Categoría<select asp-for="CategoriaId" asp-items="ViewBag.Categorias"></select></label>
+  <label>Marca<input asp-for="Marca" /><span asp-validation-for="Marca"></span></label>
+  <label>Modelo<input asp-for="Modelo" /><span asp-validation-for="Modelo"></span></label>
+  <label>Serial<input asp-for="Serial" /><span asp-validation-for="Serial"></span></label>
+  <label>Estado<select asp-for="Estado" asp-items="ViewBag.Estados"></select></label>
+</div></fieldset>
+<fieldset><legend>Ubicación</legend><div class="grid">
+  <label>Sede<select asp-for="SedeId" asp-items="ViewBag.Sedes"></select></label>
+  <label>Área<select asp-for="AreaId" asp-items="ViewBag.Areas"><option value="">Sin área</option></select><span asp-validation-for="AreaId"></span></label>
+</div></fieldset>
+<fieldset><legend>Compra y garantía</legend><div class="grid">
+  <label>Fecha de compra<input asp-for="FechaCompra" /></label>
+  <label>Costo<input asp-for="Costo" type="number" step="0.01" /></label>
+  <label>Proveedor<select asp-for="ProveedorId" asp-items="ViewBag.Proveedores"><option value="">Sin proveedor</option></select></label>
+  <label>Factura<input asp-for="Factura" /></label>
+  <label>Garantía hasta<input asp-for="GarantiaHasta" /></label>
+  <label>Vida útil (años)<input asp-for="VidaUtilAnios" type="number" /></label>
+</div></fieldset>
+<fieldset><legend>Datos técnicos</legend><div class="grid">
+  <label>Hostname<input asp-for="Hostname" /></label>
+  <label>Dirección IP<input asp-for="IP" /></label>
+  <label>MAC<input asp-for="MAC" /></label>
+  <label>Sistema operativo<input asp-for="SistemaOperativo" /></label>
+  <label>Procesador<input asp-for="Procesador" /></label>
+  <label>RAM (GB)<input asp-for="RamGB" type="number" /></label>
+  <label>Almacenamiento<input asp-for="Almacenamiento" /></label>
+</div>
+<label style="margin-top:12px">Observaciones<textarea asp-for="Observaciones" rows="3"></textarea></label></fieldset>

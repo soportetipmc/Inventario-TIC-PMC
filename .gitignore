@@ -1,0 +1,14 @@
+# Compilados y publicación
+bin/
+obj/
+publish/
+# Visual Studio / editores
+.vs/
+.vscode/
+*.user
+*.suo
+# Logs y temporales
+*.log
+# Configuración local con datos propios (no subir claves ni cadenas privadas)
+appsettings.*.local.json
+*.pubxml.user

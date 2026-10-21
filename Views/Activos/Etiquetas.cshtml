@@ -1,0 +1,44 @@
+@model List<EtiquetaVm>
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Etiquetas de activos</title>
+<style>
+  body{font-family:"Segoe UI",system-ui,sans-serif;margin:0;color:#1c2420}
+  .barra{padding:12px 20px;background:#f7f8f5;border-bottom:1px solid #d9ded6;display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px}
+  .barra button{background:#2f6f4f;color:#fff;border:0;border-radius:4px;padding:8px 16px;font:inherit;cursor:pointer}
+  .hoja{display:flex;flex-wrap:wrap;gap:3mm;padding:8mm}
+  .etiqueta{width:70mm;height:35mm;border:.2mm dashed #9aa59d;padding:2.5mm;display:flex;gap:2mm;break-inside:avoid;overflow:hidden}
+  .datos{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;font-size:8pt;line-height:1.2}
+  .logo{height:8mm;width:auto;max-width:100%;object-fit:contain;align-self:flex-start}
+  .codigo{font-size:14pt;font-weight:700;letter-spacing:.02em}
+  .modelo{max-height:7mm;overflow:hidden}
+  .chico{font-size:7pt;color:#444}
+  .qr{width:28mm;height:28mm;align-self:center;image-rendering:pixelated}
+  @@media print{.no-imprimir{display:none}.hoja{padding:0}.etiqueta{border-color:#bbb}@@page{margin:8mm}}
+</style>
+</head>
+<body>
+<div class="barra no-imprimir">
+  <strong>@Model.Count etiqueta(s)</strong>
+  <button onclick="window.print()">Imprimir</button>
+  <span>Cada etiqueta mide 70 × 35 mm. Al imprimir usa escala 100 % y sin encabezados ni pies de página.</span>
+</div>
+<div class="hoja">
+@foreach (var e in Model)
+{
+  <div class="etiqueta">
+    <div class="datos">
+      <img class="logo" src="~/logo.png" alt="Palmas Montecarmelo" />
+      <div class="codigo">@e.Activo.Codigo</div>
+      <div class="modelo">@e.Activo.Marca @e.Activo.Modelo</div>
+      <div class="chico">S/N @(e.Activo.Serial ?? "—") · @e.Activo.Sede?.Nombre</div>
+    </div>
+    <img class="qr" src="@e.Qr" alt="Código QR de @e.Activo.Codigo" />
+  </div>
+}
+</div>
+</body>
+</html>

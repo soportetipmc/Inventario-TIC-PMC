@@ -1,0 +1,7 @@
+@model Activo
+@{ ViewData["Title"] = "Editar " + Model.Codigo; }
+<h1>Editar @Model.Codigo</h1>
+<form method="post" class="activo">
+  <partial name="_Form" model="Model" />
+  <div class="acciones"><button>Guardar cambios</button><a class="btn sec" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a></div>
+</form>

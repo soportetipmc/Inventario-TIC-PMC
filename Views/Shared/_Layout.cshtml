@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@ViewData["Title"] · Inventario TIC</title>
+  <link rel="stylesheet" href="~/site.css" />
+</head>
+<body>
+<header>
+  <a class="marca" asp-controller="Activos" asp-action="Index"><img src="~/logo.png" alt="Palmas Montecarmelo S.A.S." /><span>Inventario TIC</span></a>
+  <nav>
+    <a asp-controller="Activos" asp-action="Index">Activos</a>
+    <a asp-controller="Empleados" asp-action="Index">Empleados</a>
+    <a asp-controller="Catalogos" asp-action="Index">Catálogos</a>
+    @if ((await Auth.AuthorizeAsync(User, "Tecnico")).Succeeded)
+    {
+      <a asp-controller="Importar" asp-action="Index">Carga masiva</a>
+    }
+  </nav>
+  <span class="usuario">@User.Identity?.Name</span>
+</header>
+<main>
+  @if (TempData["Mensaje"] is string m) { <div class="aviso" role="status">@m</div> }
+  @RenderBody()
+</main>
+</body>
+</html>

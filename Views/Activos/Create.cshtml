@@ -1,0 +1,8 @@
+@model Activo
+@{ ViewData["Title"] = "Registrar activo"; }
+<h1>Registrar activo</h1>
+<p class="vacio">El código se genera solo a partir de la categoría (por ejemplo PC-0042).</p>
+<form method="post" class="activo">
+  <partial name="_Form" model="Model" />
+  <div class="acciones"><button>Guardar activo</button><a class="btn sec" asp-action="Index">Cancelar</a></div>
+</form>
